@@ -1,0 +1,8 @@
+sed -i '/SCAN_RESULTS_EVENT/d' $1
+
+#remove 
+sed -i 's/^[ \t]*//' $1
+sed -i 's/addState//' $1
+sed -i 's/(\(.*\));/\1/' $1
+sed -i 's/\(.*\),\(.*\)/"\2" -> "\1";/' $1
+

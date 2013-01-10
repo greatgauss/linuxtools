@@ -1,0 +1,6 @@
+#!/bin/sh
+
+scp ~/gingerbread/out/target/product/c03ref/$1 gauss@10.68.12.155:~/
+
+
+

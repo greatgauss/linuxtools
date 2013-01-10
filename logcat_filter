@@ -1,0 +1,23 @@
+#!/bin/sh
+
+LOGFILE=$1
+TAGFILE="/mnt/fileroot/gaokejun/tools/tagfile"
+PATTERN=""
+
+if [ -z "$LOGFILE" ]
+then
+echo "$0 [logcat_file]"
+else
+while read line
+do
+echo $line
+PATTERN=$PATTERN"\|"$line
+done < $TAGFILE
+
+PATTERN=`echo ${PATTERN#\\\|}`
+
+echo ""
+
+sed -n /$PATTERN/p $LOGFILE 
+fi
+

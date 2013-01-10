@@ -1,0 +1,40 @@
+#!/bin/sh
+
+usage()
+{
+        echo "usage:`basename $0` [complete_name_in_target]" >&2
+        exit 1
+}
+
+if [ $# -ne 1 ];then
+        usage
+fi
+
+complete_name=$1
+
+#delete fisrt char "/" as root
+complete_name_without_root=${complete_name#/}
+
+file_path=${complete_name%/*}
+
+#cmd="adb push /home/gaokejun/gingerbread/out/target/product/b01ref/$complete_name_without_root $file_path"
+
+
+#cmd="adb push /home/gaokejun/sky_iptv/out/target/product/e00ref/$complete_name_without_root $file_path"
+#cmd="adb push /home/gaokejun/gingerbread/out/target/product/c03ref/$complete_name_without_root $file_path"
+#cmd="adb push /public1/gaokejun/ics_amlogic_f20/out/target/product/f20ref/$complete_name_without_root /tmp"
+#cmd="adb push /mnt/fileroot/gaokejun/ics-amlogic-0702/out/target/product/f16ref/$complete_name_without_root $file_path"
+#cmd="adb push /mnt/fileroot/gaokejun/jb-amlogic-mbx/out/target/product/g02ref/$complete_name_without_root $file_path"
+
+### FOR MBX ###
+cmd="adb push /mnt/fileroot/gaokejun/jb-mr1-amlogic/out/target/product/g02ref/$complete_name_without_root $file_path"
+
+### FOR MID ###
+#cmd="adb push /mnt/fileroot/gaokejun/jb-mr1-amlogic/out/target/product/g24ref/$complete_name_without_root $file_path"
+
+echo $cmd
+`$cmd`
+
+
+
+
