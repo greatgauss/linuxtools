@@ -14,9 +14,16 @@ sed -i 's/131085/CMD_START_DRIVER/' $1
 sed -i 's/131086/CMD_STOP_DRIVER/' $1
 sed -i 's/131089/CMD_STOP_SUPPLICANT_FAILED/' $1
 sed -i 's/131090/CMD_DELAYED_STOP_DRIVER/' $1
+sed -i 's/131091/CMD_DRIVER_START_TIMED_OUT/' $1
+sed -i 's/131101/CMD_TETHER_STATE_CHANGE/' $1
+sed -i 's/131127/CMD_ENABLE_ALL_NETWORKS/' $1
+sed -i 's/131131/CMD_GET_CONFIGURED_NETWORKS/' $1
 sed -i 's/131143/CMD_START_SCAN/' $1
+sed -i 's/131144/CMD_SET_SCAN_MODE/' $1
 sed -i 's/131147/CMD_RECONNECT/' $1
+sed -i 's/131149/CMD_SET_HIGH_PERF_MODE/' $1
 sed -i 's/131152/CMD_SET_COUNTRY_CODE/' $1
+sed -i 's/131154/CMD_ENABLE_RSSI_POLL/' $1
 sed -i 's/131155/CMD_RSSI_POLL/' $1
 sed -i 's/131162/CMD_SET_FREQUENCY_BAND/' $1
 sed -i 's/131203/CMD_ENABLE_P2P/' $1
@@ -54,13 +61,13 @@ sed -i 's/196614/CMD_ON_QUIT/' $1
 sed -i 's/196615/CMD_PRE_DHCP_ACTION_COMPLETE/' $1
 sed -i 's/143362/WIFI_ENABLE_PROCEED/' $1
 
-sed -i '/[CTRL_IFACE].*: SIGNAL_POLL/d' $1
-sed -i '/[CTRL_IFACE].*: SCAN/d' $1
-sed -i '/CMD_RSSI_POLL/d' $1
-sed -i '/SCAN_RESULTS_EVENT/d' $1
-sed -i '/CMD_START_SCAN/d' $1
-sed -i '/sendStickyBroadcast/d' $1
-sed -i 's/ConnectivityService(/CS(/' $1
-sed -i 's/WifiStateMachine(/WSM(/' $1
-sed -i 's/NetworkManagementService(/NMS(/' $1
-sed -i 's/{ what=\([^ ]*\) .*}/{ what=\1}/' $1
+#sed -i '/[CTRL_IFACE].*: SIGNAL_POLL/d' $1
+#sed -i '/[CTRL_IFACE].*: SCAN/d' $1
+#sed -i '/CMD_RSSI_POLL/d' $1
+#sed -i '/SCAN_RESULTS_EVENT/d' $1
+#sed -i '/CMD_START_SCAN/d' $1
+#sed -i '/sendStickyBroadcast/d' $1
+#sed -i 's/ConnectivityService(/CS(/' $1
+#sed -i 's/WifiStateMachine(/WSM(/' $1
+#sed -i 's/NetworkManagementService(/NMS(/' $1
+#sed -i 's/{ what=\([^ ]*\) .*}/{ what=\1}/' $1
