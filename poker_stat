@@ -1,0 +1,5 @@
+#!/bin/sh
+
+echo "(`grep -r "hjyhj .* congratulations" . | wc -l`, `grep -r "hjyhj .* in 2nd place and received" . | wc -l`, `find -type f | wc -l`,)"
+
+
