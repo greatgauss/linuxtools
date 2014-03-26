@@ -1,5 +1,5 @@
 #!/bin/sh
 
-echo "(`grep -r "hjyhj .* congratulations" . | wc -l`, `grep -r "hjyhj .* in 2nd place and received" . | wc -l`, `find -type f | wc -l`,)"
+echo "(1st:`grep -r "hjyhj .* congratulations" . | wc -l`, 2nd: `grep -r "hjyhj .* in 2nd place and received" . | wc -l`, total: `find -type f | wc -l`)"
 
 
