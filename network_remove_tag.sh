@@ -189,6 +189,10 @@ sed -i '/IInputConnectionWrapper/d' $1
 sed -i '/MyTimer/d' $1
 sed -i '/logwrapper/d' $1
 sed -i '/PerformBackupTask/d' $1
+sed -i '/ViewRootImpl/d' $1
+sed -i '/InputEventReceiver/d' $1
+sed -i '/AppOps/d' $1
+sed -i '/CountryDetector/d' $1
 sed -i '/Loading ethernet jni class/d' $1
 sed -i '/Loading pppoe jni class/d' $1
 
