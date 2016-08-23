@@ -6,7 +6,8 @@ usage()
         exit 1
 }
 
-if [ $# -ne 1 ];then
+if [ $# -lt 1 ];then
+#if [ $# -ne 1 ];then
         usage
 fi
 
@@ -22,11 +23,16 @@ file_path=${complete_name%/*}
 
 #cmd="adb push /home/gaokejun/sky_iptv/out/target/product/e00ref/$complete_name_without_root $file_path"
 #cmd="adb push /home/gaokejun/gingerbread/out/target/product/c03ref/$complete_name_without_root $file_path"
-cmd="adb push /mnt/fileroot/gaokejun/ics-amlogic-mbox/out/target/product/f16ref/$complete_name_without_root $file_path"
-#cmd="adb push /mnt/fileroot/gaokejun/ics-amlogic-0702/out/target/product/f16ref/$complete_name_without_root $file_path"
-#cmd="adb push /mnt/fileroot/gaokejun/g18.jb-mr1-amlogic/out/target/product/g18ref/$complete_name_without_root $file_path"
-#cmd="adb push /mnt/fileroot/gaokejun/jb-amlogic-mbx/out/target/product/g02ref/$complete_name_without_root $file_path"
-#cmd="adb push /mnt/fileroot/gaokejun/jb-amlogic-mbx/out/target/product/g28ref/$complete_name_without_root $file_path"
+#cmd="adb push /mnt/fileroot/gaokejun/ics-amlogic-mbox/out/target/product/f16ref/$complete_name_without_root $file_path"
+#cmd="adb push /mnt/fileroot/gaokejun/jb-mr1-amlogic/out/target/product/g18ref/$complete_name_without_root $file_path"
+#cmd="adb push /mnt/fileroot/gaokejun/kk-amlogic/out/target/product/g18ref/$complete_name_without_root $file_path"
+#cmd="adb push /mnt/fileroot/gaokejun/kk-amlogic/out/target/product/k200/$complete_name_without_root $file_path"
+#cmd="adb push /mnt/fileroot/gaokejun/kk-amlogic/out/target/product/m200_iptv/$complete_name_without_root $file_path"
+#cmd="adb push /mnt/fileroot/gaokejun/kk-amlogic/out/target/product/m201/$complete_name_without_root $file_path"
+cmd="adb push /mnt/fileroot/gaokejun/kk-amlogic/out/target/product/m200/$complete_name_without_root $file_path"
+#cmd="adb push /mnt/fileroot/gaokejun/l-amlogic/out/target/product/n200/$complete_name_without_root $file_path"
+#cmd="adb push /mnt/fileroot/gaokejun/openlinux-L/out/target/product/n200/$complete_name_without_root $file_path"
+#cmd="adb push /mnt/fileroot/gaokejun/kk-amlogic/out/target/product/n200C/$complete_name_without_root $file_path"
 
 ### FOR MBX ###
 #cmd="adb push /mnt/fileroot/gaokejun/jb-mr1-amlogic/out/target/product/g02ref/$complete_name_without_root $file_path"

@@ -1,12 +1,12 @@
 #!/bin/sh
 
 LOGFILE=$1
-TAGFILE="/mnt/fileroot/gaokejun/tools/tagfile"
+TAGFILE=$2
 PATTERN=""
 
-if [ -z "$LOGFILE" ]
+if [ $# -ne 2 ]
 then
-echo "$0 [logcat_file]"
+echo "$0 [log] [tagfile]"
 else
 while read line
 do
@@ -14,10 +14,10 @@ echo $line
 PATTERN=$PATTERN"\|"$line
 done < $TAGFILE
 
-PATTERN=`echo ${PATTERN#\\\|}`
+echo ${PATTERN}
 
 echo ""
 
-sed -n /$PATTERN/p $LOGFILE 
+#sed -n /$PATTERN/p $LOGFILE 
 fi
 

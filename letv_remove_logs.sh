@@ -1,9 +1,57 @@
 sed -i '/System.out/d' $1
 sed -i '/System.err/d' $1
+sed -i '/DEBUG   /d' $1
 
+sed -i '/D\/        /d' $1
+
+
+sed -i '/MobileDataStateTracker/d' $1
+
+#sed -i '/EthernetStateTracker/d' $1
+#sed -i '/ethernet/d' $1
+#ed -i '/EthernetIfc/d' $1
+
+sed -i '/pppoe   /d' $1
+sed -i '/Pppoe/d' $1
+sed -i '/PppoeStateTracker/d' $1
+sed -i '/PppoeMonitor/d' $1
+
+sed -i '/WVMDrmPlugIn/d' $1
+sed -i '/UpdateUtil/d' $1
+sed -i '/airplay/d' $1
+sed -i '/InputReader/d' $1
+sed -i '/skia    /d' $1
 
 sed -i '/NetlinkEvent/d' $1
-sed -i '/PppoeStateTracker/d' $1
+sed -i '/SystemServer/d' $1
+sed -i '/Vold    /d' $1
+sed -i '/NetworkController/d' $1
+sed -i '/NetStatusBroadCast/d' $1
+sed -i '/Bluetooth/d' $1
+
+sed -i '/C1Launcher/d' $1
+sed -i '/ProcessStats/d' $1
+sed -i '/MDnsDS/d' $1
+sed -i '/Web Console/d' $1
+sed -i '/bost    /d' $1
+sed -i '/ShutDownReceiver/d' $1
+sed -i '/YLog    /d' $1
+sed -i '/InputDispatcher/d' $1
+sed -i '/WindowState/d' $1
+sed -i '/JNIMsg  /d' $1
+sed -i '/remote_control/d' $1
+sed -i '/NetStatusBroadcastReceiver/d' $1
+sed -i '/gefo-plugin/d' $1
+sed -i '/Gefo Activity/d' $1
+sed -i '/GefoWebView/d' $1
+sed -i '/GefoAlertDialog/d' $1
+sed -i '/GefoBrowserView/d' $1
+sed -i '/gefo-browser/d' $1
+
+sed -i '/FrameworkListener/d' $1
+
+sed -i '/Zygote  /d' $1
+
 sed -i '/ConnectivityChangeNotifier/d' $1
 sed -i '/ConnectionReceiver/d' $1
 sed -i '/ConnectionMonitor/d' $1
@@ -68,7 +116,11 @@ sed -i '/MediaPlayer/d' $1
 sed -i '/VideoActivity/d' $1
 sed -i '/NtpService/d' $1
 sed -i '/SocketClient/d' $1
-sed -i '/PppoeMonitor/d' $1
 sed -i '/\/StateMachine/d' $1
+sed -i '/E\/description/d' $1
+sed -i '/BootGetVersionInfoTask/d' $1
+sed -i '/OggExtractor/d' $1
+sed -i '/JniInterface/d' $1
+sed -i '/MediaScanner/d' $1
 
 

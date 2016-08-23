@@ -1,6 +1,24 @@
 #!/bin/sh
 
-scp ~/gingerbread/out/target/product/c03ref/$1 gauss@10.68.12.155:~/
+usage()
+{
+        echo "usage:`basename $0` [complete_name_in_target]" >&2
+        exit 1
+}
 
+if [ $# -lt 1 ];then
+#if [ $# -ne 1 ];then
+        usage
+fi
 
+complete_name=$1
 
+#delete fisrt char "/" as root
+complete_name_without_root=${complete_name#/}
+
+file_path=${complete_name%/*}
+
+cmd="cp /mnt/fileroot/gaokejun/kk-amlogic/out/target/product/n200C/$complete_name_without_root /mnt/fileroot/gaokejun/tftp_download"
+
+echo $cmd
+`$cmd`
