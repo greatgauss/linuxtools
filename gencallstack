@@ -1,0 +1,15 @@
+TMPFILE=$1.dot
+echo "digraph abc{" >$TMPFILE
+echo "node [shape = record, fontname = "Microsoft YaHei", fontsize = 20];" >>$TMPFILE
+
+awk '{ print $5 }' $1 | sed 's/^(//'| sed 's/(.*/()/'|  sed 's/\(.*\)/[ label = "\1" ];/' | tac | nl >> $TMPFILE 
+
+line=`cat $1 |wc -l`
+xline=`expr $line - 1`
+for i in `seq 1 $xline`;
+do
+	echo -n $i" -> " >> $TMPFILE
+done
+
+echo "$line;" >> $TMPFILE 
+echo "}" >>$TMPFILE
