@@ -1,0 +1,19 @@
+#!/bin/sh
+
+usage()
+{
+        echo "usage:`basename $0` [addr] [ path of library or binary]" >&2
+        exit 1
+}
+
+if [ $# -lt 2 ];then
+        usage
+fi
+
+echo DECOMPILE_ANDROID_TOP[$DECOMPILE_ANDROID_TOP]
+echo DECOMPILE_ANDROID_TARGET_PRODUCT[$DECOMPILE_ANDROID_TARGET_PRODUCT]
+
+addr2line -e $DECOMPILE_ANDROID_TOP/out/target/product/$DECOMPILE_ANDROID_TARGET_PRODUCT/symbols/$2 $1
+
+
+       

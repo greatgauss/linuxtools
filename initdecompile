@@ -1,0 +1,25 @@
+#!/bin/sh
+
+usage()
+{
+        echo "usage:`basename $0` [android_top_dir] [target_product]" >&2
+        exit 1
+}
+
+if [ $# -lt 2 ];then
+        usage
+fi
+
+
+
+echo "export DECOMPILE_ANDROID_TOP=$1" > ~/tools/decomlile_config
+echo "export DECOMPILE_ANDROID_TARGET_PRODUCT=$2" >>  ~/tools/decomlile_config
+
+echo "Please run the command now:"
+echo "source ~/tools/decomlile_config"
+
+
+
+
+
+
