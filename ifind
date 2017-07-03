@@ -1,0 +1,30 @@
+#!/bin/sh
+usage()
+{
+	echo "My private find. ONLY for Android." >&2
+	echo "Do not find under the directory of cts; out; .git; .repo; " >&2
+	echo "Find files with specified postfix." >&2
+	echo "Usage: `basename $0` [filename]" >&2
+	echo "Example: `basename $0` c cpp" >&2
+	echo "The example will ONLY list *.c and *.cpp" >&2
+	exit 1
+}
+
+if [ $# -eq 0 ];then
+    usage
+fi
+
+
+NAMEINC=""
+for i in $@; do 
+NAMEINC=$NAMEINC" -o -name "\*".$i"
+done
+
+find . \
+! -path "./cts/*" \
+! -path "./prebuilts/*" \
+! -path "*/.git/*" \
+! -path "*/.repo/*" \
+! -path "./out/*" \
+	 -name "*.gaokejun" \
+ $NAMEINC

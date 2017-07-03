@@ -1,0 +1,24 @@
+#!/bin/sh
+
+usage()
+{
+	echo "Change to directory. ONLY VALID for GaoKejun" >&2
+	echo "SHOULD define the alias in your .bashrc same as:" >&2
+	echo "alias c=\" . $(basename $0)\"" >&2
+	echo "Now you can enter the command same as:" >&2
+	echo "  c ldd" >&2
+	echo "usage: c [abbr of path]" >&2
+	exit 1
+}
+
+if [ $# -ne 1 ];then
+    usage
+fi
+
+
+if [ $1 = "ldd" ]; then
+cd /mnt/fileroot/gaokejun/kk-amlogic/common/drivers/amlogic/ldd3
+elif [ $1 = "h"  ]; then
+cd /mnt/fileroot/gaokejun
+fi
+

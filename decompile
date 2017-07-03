@@ -3,7 +3,14 @@
 usage()
 {
         echo "usage:`basename $0` [addr] [ path of library or binary]" >&2
-        exit 1
+        echo "Before running the command. please export the variable" >&2
+        echo "export DECOMPILE_ANDROID_TOP=YOURPATH" >&2
+        echo "export DECOMPILE_ANDROID_TARGET_PRODUCT=YOURTARGET" >&2
+        echo "FOR example:" >&2
+        echo "export DECOMPILE_ANDROID_TOP=/mnt/fileroot/gaokejun/l-amlogic" >&2
+        echo "export DECOMPILE_ANDROID_TARGET_PRODUCT=p201" >&2
+
+	 	exit 1
 }
 
 if [ $# -lt 2 ];then

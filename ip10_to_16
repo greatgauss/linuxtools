@@ -1,0 +1,15 @@
+#!/bin/sh
+usage()
+{
+	echo "Convert IP from decimal to Hex" >&2
+	echo "usage: `basename $0` [ipaddr]" >&2
+	exit 1
+}
+
+if [ $# -ne 1 ];then
+    usage
+fi
+
+hex_ip=`echo "$1"| awk -F . '{printf("%02X:%02X:%02X:%02X\n", $1, $2, $3, $4)}'`
+echo $hex_ip 
+

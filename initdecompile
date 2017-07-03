@@ -12,11 +12,11 @@ fi
 
 
 
-echo "export DECOMPILE_ANDROID_TOP=$1" > ~/tools/decomlile_config
-echo "export DECOMPILE_ANDROID_TARGET_PRODUCT=$2" >>  ~/tools/decomlile_config
+echo "export DECOMPILE_ANDROID_TOP=$1" > ~/tools/decompile_config
+echo "export DECOMPILE_ANDROID_TARGET_PRODUCT=$2" >>  ~/tools/decompile_config
 
 echo "Please run the command now:"
-echo "source ~/tools/decomlile_config"
+echo "source ~/tools/decompile_config"
 
 
 

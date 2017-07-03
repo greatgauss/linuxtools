@@ -1,0 +1,2 @@
+export DECOMPILE_ANDROID_TOP=/mnt/fileroot/gaokejun/l-amlogic/
+export DECOMPILE_ANDROID_TARGET_PRODUCT=p201
