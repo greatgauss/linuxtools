@@ -1,0 +1,26 @@
+#!/bin/sh
+usage()
+{
+        echo "Usage: $(basename $0) [filename]" >&2
+        echo "Extract pts information from Kernel's log." >&2
+        echo "Examples of the pts log from Kernel as following:"
+        echo "    [  133.885015@0] codec:vpts look up offset<0x4444ff2> -->"
+				echo "    [  133.885049@0] codec:<0x4444fd0:0x22f560>, look_cnt = 1"
+				echo "    [  133.902993@0] codec:vpts look up offset<0x446b3d0> -->"
+				echo "    [  133.903037@0] codec:<0x446b3af:0x22fc68>, look_cnt = 3"
+				echo "    [  133.937560@0] codec:vpts look up offset<0x44603ff> -->"
+				echo "    [  133.937590@0] codec:<0x44603de:0x230370>, look_cnt = 1"
+  			echo "Output will be following after executing the command:"
+  			echo "    0x22f560"
+  			echo "    0x22fc68"
+  			echo "    0x230370"
+  			exit 1
+  			
+}
+
+if [ $# -ne 1 ];then
+        usage
+fi
+
+grep "codec:<"  $1 | awk -F: '{ print $3 }' | awk -F'>' '{ print $1 }'
+

@@ -1,0 +1,34 @@
+#!/bin/sh
+
+usage()
+{
+        echo "Usage: $(basename $0) [filename]" >&2
+        echo "Calculate the difference between pts." >&2
+        echo "Examples of pts file:"
+        echo "0x3840"
+				echo "0x3f48"
+				echo "0x4650"
+				echo "0x4d58"
+				echo "0x5460"
+				echo "0x5b68"
+				echo "0x6270"
+				echo "0x6978"
+				echo "0x7080"
+				echo "0x575d0"
+				echo "0x57cd8"
+				echo "0x583e0"
+				echo "0x8ca0"
+				echo "0x591f0"
+				echo "0x598f8"
+				echo "0x5a000"
+  			exit 1
+}
+
+if [ $# -ne 1 ];then
+        usage
+fi
+
+awk '{printf("%d %s\n",NR,$0)}' $1 | \
+awk '{a[$1] = strtonum($2)-tmp; tmp = strtonum($2)}  END {for(i in a) printf("%04d %d\n", i, a[i]) }' | \
+sort -n
+
