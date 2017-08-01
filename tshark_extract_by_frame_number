@@ -1,0 +1,19 @@
+#!/bin/sh
+
+usage()
+{
+    echo "tshark: extract packets by frame number" >&2
+    echo "Usage: $(basename $0)  [begin] [end] [pcapfile]" >&2
+	 	exit 1
+}
+
+
+if [ $# -ne 3 ];then
+        usage
+fi
+
+PCAPFILE=$3
+
+tshark -r $PCAPFILE    -w $PCAPFILE.$1-$2.pcap  -Y "frame.number >= $1 && frame.number <= $2"
+
+       

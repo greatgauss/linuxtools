@@ -1,0 +1,20 @@
+#!/bin/sh
+
+usage()
+{
+    echo "tshark: extract UDP data" >&2
+    echo "Usage: $(basename $0)  [pcapfile]" >&2
+	 	exit 1
+}
+
+
+if [ $# -ne 1 ];then
+        usage
+fi
+
+PCAPFILE=$1
+
+tshark -nl -r $PCAPFILE -q -z "follow,udp,raw,0" | tail -n +7 | xxd -r -p > $PCAPFILE.ts
+#CMD="tshark -nl -r $PCAPFILE -q -z \"follow,udp,raw,0\" | tail -n +7 | xxd -r -p > $PCAPFILE.ts"
+#echo $CMD
+#$($CMD)       
