@@ -2,43 +2,48 @@
 
 usage()
 {
-        echo "Usage: $(basename $0) [commitid] [filepath]" >&2
-        exit 1
+    echo "Usage: $(basename $0) [commitid] [filepath]" >&2
+    echo "Examples:" >&2
+    echo "  $(basename $0) 8e72e7484f71830487692f73b8ec741dbc01daca amffmpeg/libavformat/Android.mk" >&2
+    exit 1
 }
 
 
 if [ $# -ne 2 ];then
-        usage
+    usage
 fi
 
-GITDIFF=$(git diff $FILEPATH)
+GITDIFF=$(git diff)
 if [ x${GITDIFF}y != "xy" ]; then
 echo "unstaged change!!!"
 exit 1
 fi
 
-GITDIFF=$(git diff --cached $FILEPATH)
+GITDIFF=$(git diff --cached)
 if [ x${GITDIFF}y != "xy" ]; then
 echo "uncommitted change!!!"
 exit 2
 fi
 
 COMMIT_ID=$1
-FILEPATH=$2
+FILELIST=$(git show $COMMIT_ID --stat  | grep " | " | awk '{print $1}')
+
+for FILEPATH in $FILELIST; do 
 DIRNAME=$(dirname revision.$COMMIT_ID/$FILEPATH)
+OLDDIRNAME=$(dirname revision.$COMMIT_ID.old/$FILEPATH)
+
 BASENAME=$(basename $FILEPATH)
 
-rm -fr ./$DIRNAME
-
 mkdir -p $DIRNAME
+mkdir -p $OLDDIRNAME
 
 git checkout $COMMIT_ID  $FILEPATH
 cp $FILEPATH $DIRNAME
 
 git checkout $COMMIT_ID^  $FILEPATH
 
-cp $FILEPATH $DIRNAME/${BASENAME}.prev
+cp $FILEPATH $OLDDIRNAME
 git checkout HEAD $FILEPATH
-
+done
 
 
