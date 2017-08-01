@@ -7,20 +7,61 @@ usage()
         echo "export DECOMPILE_ANDROID_TOP=YOURPATH" >&2
         echo "export DECOMPILE_ANDROID_TARGET_PRODUCT=YOURTARGET" >&2
         echo "FOR example:" >&2
+        echo "export DECOMPILE_ANDROID_TOP=/mnt/fileroot/gaokejun/kk-amlogic" >&2
         echo "export DECOMPILE_ANDROID_TOP=/mnt/fileroot/gaokejun/l-amlogic" >&2
+        echo "export DECOMPILE_ANDROID_TOP=/mnt/fileroot/gaokejun/m-amlogic" >&2
+        echo "export DECOMPILE_ANDROID_TOP=/mnt/fileroot/gaokejun/n-amlogic" >&2
         echo "export DECOMPILE_ANDROID_TARGET_PRODUCT=p201" >&2
+        echo "export DECOMPILE_ANDROID_TARGET_PRODUCT=p212" >&2
 
 	 	exit 1
 }
 
-if [ $# -lt 2 ];then
+if [ $# -ne 2 ];then
         usage
 fi
+
+ADDR=$( echo $1 | tr  '[:lower:]' '[:upper:]')
+FILEPATH=$DECOMPILE_ANDROID_TOP/out/target/product/$DECOMPILE_ANDROID_TARGET_PRODUCT/symbols/$2
+
+SHOULD_ADJUST=0
+
+echo "$FILEPATH" | grep -q "m-amlogic"  
+if [ $? -eq 0 ]; then  
+SHOULD_ADJUST=1
+fi
+
+echo "$FILEPATH" | grep -q "n-amlogic"  
+if [ $? -eq 0 ]; then  
+SHOULD_ADJUST=1
+fi
+
+echo "$FILEPATH" | grep -q "libamplayer.so"  
+if [ $SHOULD_ADJUST -eq 1 -a $? -eq 0 ]; then  
+ADJUST=$(readelf -l out/target/product/p201/symbols/system/lib/libamplayer.so | \
+		grep LOAD | \
+		head -n 1 | \
+		awk '{print $3}' | \
+		cut -b 3- | \
+		tr  '[:lower:]' '[:upper:]' )
+
+#echo ADJUST=$ADJUST
+
+ADDR="obase=10; ibase=16; $ADDR"
+ADJUST="obase=10; ibase=16; $ADJUST"
+ADDR=$(echo $ADDR | bc)
+ADJUST=$(echo $ADJUST | bc)
+#echo ADDR=$ADDR
+#echo ADJUST=$ADJUST
+
+ADDR=$(echo $ADDR+$ADJUST | bc)
+ADDR="obase=16; ibase=10; $ADDR"
+ADDR=$(echo $ADDR | bc)
+#echo $ADDR
+fi  
 
 echo DECOMPILE_ANDROID_TOP[$DECOMPILE_ANDROID_TOP]
 echo DECOMPILE_ANDROID_TARGET_PRODUCT[$DECOMPILE_ANDROID_TARGET_PRODUCT]
 
-addr2line -e $DECOMPILE_ANDROID_TOP/out/target/product/$DECOMPILE_ANDROID_TARGET_PRODUCT/symbols/$2 $1
+addr2line -e $FILEPATH $ADDR
 
-
-       
