@@ -2,7 +2,9 @@
 
 usage()
 {
-        echo "usage:`basename $0` [addr] [ path of library or binary]" >&2
+        echo "usage: $(basename $0) [addr] [ path of library or binary]" >&2
+        echo "  $(basename $0) [addr] [ path of library or binary]" >&2
+        echo "  $(basename $0) -a [addr] [ path of library or binary]" >&2
         echo "Before running the command. please export the variable" >&2
         echo "export DECOMPILE_ANDROID_TOP=YOURPATH" >&2
         echo "export DECOMPILE_ANDROID_TARGET_PRODUCT=YOURTARGET" >&2
@@ -17,28 +19,30 @@ usage()
 	 	exit 1
 }
 
-if [ $# -ne 2 ];then
-        usage
+if [ $# -lt 2 ]; then
+  usage
 fi
-
-ADDR=$( echo $1 | tr  '[:lower:]' '[:upper:]')
-FILEPATH=$DECOMPILE_ANDROID_TOP/out/target/product/$DECOMPILE_ANDROID_TARGET_PRODUCT/symbols/$2
 
 SHOULD_ADJUST=0
 
-echo "$FILEPATH" | grep -q "m-amlogic"  
-if [ $? -eq 0 ]; then  
-SHOULD_ADJUST=1
+if [ $# -eq 2 ]; then
+	ADDR=$1
+	FILEPATH=$2
+elif [ $# -eq 3 -a "-a" = $1 ]; then
+  SHOULD_ADJUST=1
+	ADDR=$2
+	FILEPATH=$3
+else
+  usage
 fi
 
-echo "$FILEPATH" | grep -q "n-amlogic"  
-if [ $? -eq 0 ]; then  
-SHOULD_ADJUST=1
-fi
 
-echo "$FILEPATH" | grep -q "libamplayer.so"  
-if [ $SHOULD_ADJUST -eq 1 -a $? -eq 0 ]; then  
-ADJUST=$(readelf -l out/target/product/p201/symbols/system/lib/libamplayer.so | \
+
+ADDR=$( echo $ADDR | tr  '[:lower:]' '[:upper:]')
+FILEPATH=$DECOMPILE_ANDROID_TOP/out/target/product/$DECOMPILE_ANDROID_TARGET_PRODUCT/symbols/$FILEPATH
+
+if [ $SHOULD_ADJUST -eq 1 ]; then  
+ADJUST=$(readelf -l $FILEPATH | \
 		grep LOAD | \
 		head -n 1 | \
 		awk '{print $3}' | \
