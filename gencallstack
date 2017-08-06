@@ -7,6 +7,13 @@ usage()
 }
 
 if [ $# -eq 1 ];then
+	DOTFILE=$1.dot
+	if [ -f $DOTFILE ]; then
+		echo  ""
+		echo  "File $DOTFILE existed. Please remove it."
+		exit 2
+	fi
+
 	echo  "ALWAYS read callstack from stdin !!!"
 	while read line
 	do
@@ -16,7 +23,6 @@ else
 	usage
 fi
 
-DOTFILE=/mnt/fileroot/gaokejun/graphviz_script/$1.dot
 echo "digraph abc{" >$DOTFILE
 echo "node [shape = record, fontname = "Microsoft YaHei", fontsize = 20];" >>$DOTFILE
 
@@ -36,10 +42,11 @@ tac | \
 nl \
 >> $DOTFILE 
 
-
 # generate the node sequence list: 1 -> 2 -> 3 -> 4 -> 5 ...
-line=`cat $DOTFILE |wc -l`
-xline=`expr $line - 1`
+line=$(cat $DOTFILE |wc -l)
+line=$(expr $line - 2)
+xline=$(expr $line - 1)
+
 for i in `seq 1 $xline`;
 do
 	echo -n $i" -> " >> $DOTFILE
@@ -48,5 +55,7 @@ done
 echo "$line;" >> $DOTFILE 
 echo "}" >>$DOTFILE
 
+echo ""
+echo ""
 echo "# cat $DOTFILE"
 cat $DOTFILE
