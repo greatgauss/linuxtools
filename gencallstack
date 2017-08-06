@@ -1,16 +1,48 @@
-TMPFILE=$1.dot
-echo "digraph abc{" >$TMPFILE
-echo "node [shape = record, fontname = "Microsoft YaHei", fontsize = 20];" >>$TMPFILE
+usage()
+{
+    echo "Usage: $(basename $0) [callstack file]" >&2
+    exit 1
+}
 
-awk '{ print $8 }' $1 | sed 's/^(//'| sed 's/(.*/()/'|sed 's/\+.*/()/'|sed 's/\(.*\)/[ label = "\1" ];/' | tac | nl >> $TMPFILE 
+#while read line
+#do
+#  echo "gaokj $line"
+#done < "${1:-/dev/stdin}"
 
+if [ $# -ne 1 ];then
+usage
+fi
+
+DOTFILE=/mnt/fileroot/gaokejun/graphviz_script/$1.dot
+echo "digraph abc{" >$DOTFILE
+echo "node [shape = record, fontname = "Microsoft YaHei", fontsize = 20];" >>$DOTFILE
+
+# delete all the chars before " pc "
+# extract the column with contains function name
+# extract the function name
+# $name ==> [ label = "$name" ];
+# concatenate and print files in reverse
+# number lines of files: the nubmer is also the node name in dot file.
+sed 's/^.* pc //' $1 | \
+awk '{ print $3 }' | \
+sed 's/^(//'| \
+sed 's/(.*/()/' | \
+sed 's/\+.*/()/'| \
+sed 's/\(.*\)/[ label = "\1" ];/' | \
+tac | \
+nl \
+>> $DOTFILE 
+
+
+# generate the node sequence list: 1 -> 2 -> 3 -> 4 -> 5 ...
 line=`cat $1 |wc -l`
 xline=`expr $line - 1`
 for i in `seq 1 $xline`;
 do
-	echo -n $i" -> " >> $TMPFILE
+	echo -n $i" -> " >> $DOTFILE
 done
 
-echo "$line;" >> $TMPFILE 
-echo "}" >>$TMPFILE
-cp $TMPFILE /mnt/fileroot/gaokejun/graphviz_script 
+echo "$line;" >> $DOTFILE 
+echo "}" >>$DOTFILE
+
+cat $DOTFILE
