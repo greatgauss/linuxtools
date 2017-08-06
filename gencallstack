@@ -1,16 +1,19 @@
 usage()
 {
-    echo "Usage: $(basename $0) [callstack file]" >&2
+    echo "Usage: $(basename $0) [dotfile name]" >&2
+    echo "!!! WARNING !!!" >&2
+    echo "!!! ALWAYS read callstack from stdin !!!" >&2    
     exit 1
 }
 
-#while read line
-#do
-#  echo "gaokj $line"
-#done < "${1:-/dev/stdin}"
-
-if [ $# -ne 1 ];then
-usage
+if [ $# -eq 1 ];then
+	echo  "ALWAYS read callstack from stdin !!!"
+	while read line
+	do
+	  echo "gaokj $line"  >>$TIMEFILE
+	done < "${1:-/dev/stdin}"
+else
+	usage
 fi
 
 DOTFILE=/mnt/fileroot/gaokejun/graphviz_script/$1.dot
@@ -23,7 +26,7 @@ echo "node [shape = record, fontname = "Microsoft YaHei", fontsize = 20];" >>$DO
 # $name ==> [ label = "$name" ];
 # concatenate and print files in reverse
 # number lines of files: the nubmer is also the node name in dot file.
-sed 's/^.* pc //' $1 | \
+sed 's/^.* pc //' $TIMEFILE | \
 awk '{ print $3 }' | \
 sed 's/^(//'| \
 sed 's/(.*/()/' | \
@@ -35,7 +38,7 @@ nl \
 
 
 # generate the node sequence list: 1 -> 2 -> 3 -> 4 -> 5 ...
-line=`cat $1 |wc -l`
+line=`cat $DOTFILE |wc -l`
 xline=`expr $line - 1`
 for i in `seq 1 $xline`;
 do
@@ -45,4 +48,5 @@ done
 echo "$line;" >> $DOTFILE 
 echo "}" >>$DOTFILE
 
+echo "# cat $DOTFILE"
 cat $DOTFILE
