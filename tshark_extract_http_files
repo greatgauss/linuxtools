@@ -1,0 +1,34 @@
+#!/bin/sh
+
+usage()
+{
+  echo "extract http files" >&2
+  echo "usage: $(basename $0) [pcapfile]" >&2
+  exit 1
+}
+
+if [ $# -ne 1 ]; then
+  usage
+fi
+
+rmdir -f tcp_streams
+rmdir -f tcp_payloads
+
+mkdir tcp_streams
+mkdir tcp_payloads
+
+PCAPFILE=$1
+for STREAM_ID in $(tshark -r ${PCAPFILE} -T fields -e tcp.stream | sort -n | uniq)
+do
+    STEAM_FILE=tcp_streams/stream-${STREAM_ID}.cap
+    PAYLOAD_FILE=tcp_payloads/stream-${STREAM_ID}.payload
+    echo Generate ${STEAM_FILE} ...
+    tshark -r $PCAPFILE -w ${STEAM_FILE} -Y "tcp.stream==$STREAM_ID"
+    tshark -nl -r ${STEAM_FILE} -q -z "follow,tcp,raw,0" | tail -n +7 | xxd -r -p > ${PAYLOAD_FILE}
+    FILENAME=$(cat ${PAYLOAD_FILE} | grep  -a "^GET " | awk  '{ print $2 }' |  awk  -F/ '{ print $NF }')
+    echo filename is ${FILENAME}
+    sed -n '1,/^Content-Length:/!p' ${PAYLOAD_FILE} | sed -n '1!p' > ${FILENAME}
+done
+
+
+
