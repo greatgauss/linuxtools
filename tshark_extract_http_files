@@ -19,8 +19,14 @@ mkdir tcp_streams
 mkdir tcp_payloads
 mkdir av
 
+
 PCAPFILE=$1
-for STREAM_ID in $(tshark -r ${PCAPFILE} -T fields -e tcp.stream | sort -n | uniq)
+STREAM_ID_MAX=$(tshark -r ${PCAPFILE} -T fields -e tcp.stream | sort -n | uniq | wc -l)
+STREAM_ID_MAX=$(expr ${STREAM_ID_MAX} - 1)
+STREAM_IDS=$(seq 0 ${STREAM_ID_MAX})
+
+
+for STREAM_ID in ${STREAM_IDS} 
 do
     STEAM_FILE=tcp_streams/stream-${STREAM_ID}.cap
     PAYLOAD_FILE=tcp_payloads/stream-${STREAM_ID}.payload
@@ -30,7 +36,7 @@ do
     FILENAME_BASE=av/$(cat ${PAYLOAD_FILE} | grep  -a "^GET " | awk  '{ print $2 }' |  awk  -F/ '{ print $NF }')
     
     FILENAME=${FILENAME_BASE}
-    file_id=1
+    file_id=0
         while [ "no" != "yes" ]; do
             if [ ! -f "${FILENAME}" ]; then
                 echo filename is ${FILENAME}
@@ -43,6 +49,4 @@ do
             fi
         done
 done
-
-
 
