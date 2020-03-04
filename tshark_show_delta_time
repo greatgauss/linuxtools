@@ -1,0 +1,40 @@
+#!/bin/sh
+
+usage()
+{
+  echo "show the info of the packets which delta time is greater than the value specified" >&2
+  echo "usage: $(basename $0) [pcap filename] [delta_time] [FIELDS_TO_SHOW]" >&2
+  echo "WARNING: FIELDS_TO_SHOW MUST be incuded by \"\"" >&2
+  echo "Examples:" >&2
+  echo "$(basename $0) my.pcap 0.5 \"ip.src ip.dst\"" >&2
+  echo "$(basename $0) my.pcap 1 \"tcp.srcport tcp.dstport\"" >&2
+  exit 1
+}
+
+if [ $# -lt 2 ]; then
+  usage
+fi
+
+if [ $# -gt 2 ]; then
+    FIELDS_TO_SHOW=$3
+    for FIELD in $FIELDS_TO_SHOW; do
+        TSHARK_FIELDS_TO_SHOW="$TSHARK_FIELDS_TO_SHOW -e $FIELD" 
+    done
+fi
+
+FILE=$1
+DELTA_TIME=$2
+echo "$FILE ......"
+
+tshark -r $FILE  -Y "frame.time_delta > ${DELTA_TIME}" -T fields -e frame.number -e frame.time_delta $TSHARK_FIELDS_TO_SHOW 
+delta_list=$(tshark -r $FILE -T fields -e frame.time_delta  -Y "frame.time_delta > ${DELTA_TIME}")
+
+SUM=0
+for delta in $delta_list; do
+    SUM=$(echo "$SUM+$delta" | bc)
+done
+
+TOTAL_TIME=$(capinfos $FILE | grep "Capture duration"| tr -d " " | cut -d ":" -f 2)
+
+echo "delay: ${SUM}s. \t total_time: $TOTAL_TIME"
+

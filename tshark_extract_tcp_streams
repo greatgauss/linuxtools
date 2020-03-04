@@ -1,0 +1,27 @@
+#!/bin/sh
+
+usage()
+{
+  echo "extract tcp streams" >&2
+  echo "usage: $(basename $0) [pcapfile] --contains [string]" >&2
+  exit 1
+}
+
+if [ $# -ne 3 -o $2 != "--contains" ]; then
+  usage
+fi
+
+STRING=$3
+FILTER="(tcp && (udp"
+
+PCAPFILE=$1
+for STREAM_ID in $(tshark -r ${PCAPFILE} -T fields -e tcp.stream -Y "tcp contains ${STRING}" | sort -n | uniq)
+do
+    FILTER=${FILTER}" || tcp.stream==${STREAM_ID}"
+done
+
+FILTER=${FILTER}"))"
+echo ${FILTER}
+
+tshark -r ${PCAPFILE} -w ${PCAPFILE}.extracted.pcap -Y "${FILTER}"
+ 

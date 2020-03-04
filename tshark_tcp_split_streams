@@ -1,0 +1,24 @@
+#!/bin/sh
+
+usage()
+{
+  echo "split into seperated streams" >&2
+  echo "usage: $(basename $0) [pcapfile]" >&2
+  exit 1
+}
+
+if [ $# -ne 1 ]; then
+  usage
+fi
+
+rm -fr tcp_streams; mkdir tcp_streams
+
+PCAPFILE=$1
+for STREAM_ID in $(tshark -r ${PCAPFILE} -T fields -e tcp.stream | sort -n | uniq)
+do
+    FORMATED_STREAM_ID="$(echo ${STREAM_ID} | awk '{printf "%02d\n",$1}')"
+
+    STEAM_FILE=tcp_streams/stream-${FORMATED_STREAM_ID}.cap
+    echo Generate ${STEAM_FILE} ...
+    tshark -r $PCAPFILE -w ${STEAM_FILE} -Y "tcp.stream==$STREAM_ID"
+done

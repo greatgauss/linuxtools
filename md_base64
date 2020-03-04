@@ -1,0 +1,21 @@
+#!/bin/sh
+
+usage()
+{
+    echo "$(basename $0): base64 encode for Markdown" >&2
+    echo "Usage: $(basename $0)  [file]" >&2
+    exit 1
+}
+
+
+if [ $# -ne 1 ];then
+    usage
+fi
+
+FILE=$1
+
+ echo -n "[${FILE}]:data:image/png;base64," > ${FILE}.base64
+
+base64 -w 0 ${FILE} >> ${FILE}.base64
+#base64 -w 0 ${FILE} > ${FILE}.base64
+

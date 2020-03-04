@@ -1,0 +1,19 @@
+#!/bin/sh
+usage()
+{
+	echo "Delete the first N bytes of the file" >&2
+	echo "usage: $(basename $0) [length_of_data_to_delete] [filename]" >&2
+	exit 1
+}
+
+if [ $# -ne 2 ];then
+    usage
+fi
+
+LENGTH=$1
+
+FILENAME=$2
+
+dd bs=${LENGTH} skip=1 if=${FILENAME} of=${FILENAME}.truncated && mv ${FILENAME}.truncated ${FILENAME} 
+#dd bs=${LENGTH} skip=1 if=${FILENAME} of=${FILENAME}.truncated 
+

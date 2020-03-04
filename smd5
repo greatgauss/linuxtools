@@ -1,0 +1,15 @@
+#!/bin/sh
+
+usage()
+{
+    echo "Calculate MD5 of the string" >&2
+    echo "usage: $(basename $0) <string>" >&2
+    exit 1
+}
+
+if [ $# -ne 1 ];then
+    usage
+fi
+
+echo -n "$1" | md5sum | awk '{ print $1 }'
+

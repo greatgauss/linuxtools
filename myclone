@@ -1,0 +1,10 @@
+#!/bin/sh
+
+BASENAME=$(basename $(pwd))
+if [ $# -eq 1 ];then
+   BASENAME=$1 
+fi
+
+tar czfhp $BASENAME.tar.gz ./
+
+       
